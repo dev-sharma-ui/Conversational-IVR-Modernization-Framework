@@ -1,0 +1,22 @@
+# ============================================================
+# CORE REQUIREMENTS — Install these first, always required
+# ============================================================
+# Run: pip install -r requirements.txt
+
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+python-multipart==0.0.9
+aiofiles==23.2.1
+httpx==0.27.0
+
+# NLP — Intent Classification
+# NOTE: torch is installed separately below for CPU-only (much smaller)
+transformers==4.40.1
+accelerate>=0.26.0
+
+# NLP — Entity Extraction
+spacy==3.7.4
+
+# Audio format conversion (needed for WebM -> WAV before Whisper)
+pydub==0.25.1
