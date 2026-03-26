@@ -21,6 +21,7 @@ from data.doctors_db import (
     find_doctor_by_name,
     book_appointment,
 )
+from data.date_validator import validate_date
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +63,22 @@ def handle_dialogue(session: dict, intent: str, entities: dict) -> str:
 
         # Ask for date if missing
         if not data.get("date"):
-            return "Please tell me the preferred appointment date."
+            from datetime import date as _date
+            today_str = _date.today().strftime("%A, %d %B %Y")
+            return f"Please tell me the preferred appointment date. Today is {today_str}."
+
+        # ── Validate the date ─────────────────────────────────────────────────
+        date_result = validate_date(data["date"])
+
+        if not date_result["valid"]:
+            # Date is invalid (past, too far ahead, Sunday, unparseable)
+            # Clear the bad date so we ask again
+            data.pop("date", None)
+            return date_result["error"] + "\nPlease tell me a valid appointment date."
+
+        # Date is valid — store the nicely formatted version
+        # e.g. "Monday, 30 March 2026" instead of raw "next monday"
+        data["date"] = date_result["formatted"]
 
         # Both slots filled — query the database
         department = data["department"]
