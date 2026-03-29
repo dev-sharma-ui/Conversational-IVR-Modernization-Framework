@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: citycare-ivr
+    runtime: python
+    buildCommand: pip install torch --index-url https://download.pytorch.org/whl/cpu && pip install -r MAIN_PROJECT/requirements.txt && python -m spacy download en_core_web_sm
+    startCommand: cd MAIN_PROJECT/Project && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: WHISPER_MODEL_SIZE
+        value: tiny
+        
