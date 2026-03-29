@@ -183,14 +183,19 @@ async def _process_message(session: dict, message: str) -> dict:
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
+# @app.get("/")
+# def root():
+#     return {
+#         "status": "✅ Conversational Hospital IVR Running",
+#         "version": "2.1.0",
+#         "active_sessions": len(sessions),
+#         "docs": "/docs",
+#     }
+
 @app.get("/")
 def root():
-    return {
-        "status": "✅ Conversational Hospital IVR Running",
-        "version": "2.1.0",
-        "active_sessions": len(sessions),
-        "docs": "/docs",
-    }
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/frontend")
 
 
 @app.get("/ivr/health")
