@@ -1,3 +1,9 @@
+## 🌐 Live Demo
+**Deployed URL:** https://citycare-ivr.onrender.com/frontend
+
+**API Docs:** https://citycare-ivr.onrender.com/docs
+
+
 <div align="center">
 
 <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
