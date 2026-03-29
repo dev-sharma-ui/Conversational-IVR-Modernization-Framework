@@ -10,3 +10,13 @@ __pycache__/
 .pytest_cache/
 
 *.exe
+
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.env
+*.exe
+*.bin
+.DS_Store
