@@ -43,7 +43,29 @@ KEYWORD_INTENT_MAP = {
 # Try loading the transformer model; degrade gracefully if unavailable
 _classifier = None
 
+# def _load_classifier():
+#     global _classifier
+#     if _classifier is not None:
+#         return _classifier
+#     try:
+#         from transformers import pipeline
+#         _classifier = pipeline(
+#             "zero-shot-classification",
+#             model="facebook/bart-large-mnli",
+#         )
+#         logger.info("✅ Transformer intent classifier loaded.")
+#     except Exception as e:
+#         logger.warning(f"⚠️  Transformer model unavailable, using keyword fallback. Reason: {e}")
+#         _classifier = None
+#     return _classifier
 def _load_classifier():
+    global _classifier
+    # Disabled on server — BART requires 1.5GB RAM
+    # Free tier only has 512MB — using keyword fallback instead
+    # To enable BART locally, remove the line below
+    import os
+    if os.getenv("DISABLE_BART", "true").lower() == "true":
+        return None
     global _classifier
     if _classifier is not None:
         return _classifier
@@ -58,7 +80,6 @@ def _load_classifier():
         logger.warning(f"⚠️  Transformer model unavailable, using keyword fallback. Reason: {e}")
         _classifier = None
     return _classifier
-
 
 def _keyword_detect_intent(text: str) -> str:
     """Simple keyword-based intent detection as a fallback."""
